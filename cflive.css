@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Regular.ttf);
+    font-style: normal;
+    font-weight: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Bold.ttf);
+    font-style: normal;
+	font-weight: bold;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Italic.ttf);
+	font-style: italic;
+    font-weight: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondLight.ttf);
+    font-style: normal;
+	font-weight: normal;
+    font-stretch: condensed;
+}
+
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondLightItalic.ttf);
+    font-style: italic;
+	font-weight: normal;
+    font-stretch: condensed;
+}
+
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondBold.ttf);
+    font-style: normal;
+	font-weight: bold;
+    font-stretch: condensed;
+}
+
+table {
+    font-family: "Open Sans";
+    color: white;
+    font-size: 21px;
+}
+
+@keyframes flashing {
+    from {background-color: black;}
+    to {background-color: #555555;}
+}
+
+@-webkit-keyframes loading {
+    0%{background-position:60% 0%}
+	/* 50%{background-position:50% 0%} */
+	100%{background-position:40% 0%}
+}
+
+h3, p {
+    font-family: "Open Sans";
+    color: white;
+}
+
+.underln { 
+    color: white;
+    border-bottom: 1px solid white;
+    text-decoration: none; font-weight: normal;
+    font-family: "Open Sans";
+}
+
+tr.QU  {animation: flashing 0.3s ease-in-out 0s infinite alternate;}
+tr.FA  {background: #333333;}
+tr.AC  {background: #00AA00;}
+tr.PA  {background: #000000;}
+tr.CE  {background: #AAAA00;}
+tr.RTE {background: #00AAAA;}
+tr.WA  {background: #FF0000;}
+tr.PE  {background: #666600;}
+tr.TLE {background: #0000FF;}
+tr.MLE {background: #0000AA;}
+tr.ILE {background: #000066;}
+tr.SV  {background: #000000;}
+tr.CR  {background: #000000;}
+tr.IPC {background: #000000;}
+tr.CH  {background: #000000;}
+tr.SK  {background: #000000;}
+tr.TE  {background: -webkit-linear-gradient(left, orange, orange 49.7%, black 50%, black 100%); background: -moz-linear-gradient(left, orange, orange 49.7%, black 50%, black 100%); background-size: 600% 600%; animation: loading 1s cubic-bezier(0,-0.36,0,.98) infinite; background-attachment:fixed;}
+tr.RJ  {background: #000000;}

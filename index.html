@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="cflive.css"/>
+    <link href="http://i.imgur.com/UaJV0iL.png" rel="shortcut icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script>
+    var app = angular.module('myApp', []);
+
+    function SubsCtrl($scope, $http, $interval) {
+
+    $scope.submissions = [];
+
+    $scope.verdict_map = {
+    undefined: 'QU',
+    'FAILED': 'FA',
+    'OK': 'AC',
+    'PARTIAL': 'PA',
+    'COMPILATION_ERROR': 'CE',
+    'RUNTIME_ERROR': 'RTE',
+    'WRONG_ANSWER': 'WA',
+    'PRESENTATION_ERROR': 'PE',
+    'TIME_LIMIT_EXCEEDED': 'TLE',
+    'MEMORY_LIMIT_EXCEEDED': 'MLE',
+    'IDLENESS_LIMIT_EXCEEDED': 'ILE',
+    'SECURITY_VIOLATED': 'SV',
+    'CRASHED': 'CR',
+    'INPUT_PREPARATION_CRASHED': 'IPC',
+    'CHALLENGED': 'CH',
+    'SKIPPED': 'SK',
+    'TESTING': 'TE',
+    'REJECTED': 'RJ'
+    };
+
+    $scope.loadSubs = function() {
+        $http.get('http://codeforces.com/api/problemset.recentStatus?count=20').success(function(data, status) {
+            $scope.submissions = data;
+        });
+    };
+
+    $interval($scope.loadSubs, 1000);
+
+    }
+    </script>
+    <title></title>
+</head>
+<body bgcolor="#000000">
+    <div ng-controller="SubsCtrl">
+        <h3>Live Submissions from Codeforces</h3>
+        <table style="border-collapse:collapse;" cellpadding="1" width="100%">
+            <thead style="font-weight: bold; font-stretch: condensed">
+                <tr>
+                    <th width="70" align="center">Sub ID</th>
+                    <th width="70"></th>
+                    <th width="250" align="left">Problem</th>
+                    <th width="250" align="left">User</th>
+                    <th width="70">Verdict</th>
+                    <th width="120">Lang</th>
+                    <th width="90">Time</th>
+                    <th width="90">Memory</th>
+                    <th width="110">Submit Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: black;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
+                    <td align="center" style="font-stretch: condensed">{{i.id}}</td>
+                    <td align="right">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</td>
+                    <td style="font-stretch: condensed">{{i.problem.name}}</td>
+                    <td>{{i.author.members[0].handle}}</td>
+                    <td align="center">{{verdict_map[i.verdict]}}</td>
+                    <td align="center">{{i.programmingLanguage}}</td>
+                    <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
+                    <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
+                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <p style="color:#ffffff; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for the <a class="underln" href="http://codeforces.com/api/help">API</a>.</p>
+</body>
+</html>

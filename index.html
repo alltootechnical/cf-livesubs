@@ -35,7 +35,7 @@
     };
 
     $scope.loadSubs = function() {
-        $http.get('https://codeforces.com/api/problemset.recentStatus?count=20').success(function(data, status) {
+        $http.get('http://codeforces.com/api/problemset.recentStatus?count=20').success(function(data, status) {
             $scope.submissions = data;
         });
     };

@@ -2,6 +2,7 @@
 <html lang="en" ng-app="myApp">
 <head>
     <meta charset="utf-8">
+    <title>Live Submissions from Codeforces</title>
     <link rel="stylesheet" href="cflive.css"/>
     <link href="http://i.imgur.com/UaJV0iL.png" rel="shortcut icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -12,6 +13,9 @@
     function SubsCtrl($scope, $http, $interval) {
 
     $scope.submissions = [];
+    var temp = [];
+    var first_run = true;
+    var how_many = 20;
 
     $scope.verdict_map = {
     undefined: 'QU',
@@ -33,10 +37,21 @@
     'TESTING': 'TE',
     'REJECTED': 'RJ'
     };
+    
+    $scope.setLimit = function(num) {
+        how_many = num;
+    }
 
     $scope.loadSubs = function() {
-        $http.get('http://codeforces.com/api/problemset.recentStatus?count=20').success(function(data, status) {
-            $scope.submissions = data;
+        $http.get('https://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
+            if (first_run) {temp = data; first_run = false;}
+            else {
+                if (angular.toJson($scope.submissions) !== angular.toJson(temp)) {
+                    $scope.submissions = data;
+                    console.log('updating');
+                }
+                temp = data;
+            }
         });
     };
 
@@ -48,11 +63,20 @@
 </head>
 <body bgcolor="#000000">
     <div ng-controller="SubsCtrl">
-        <h3>Live Submissions from Codeforces</h3>
+        <div style="font-size: 13px">
+        <span style="float: left; font-weight: bold"><p>Live Submissions from Codeforces</p></span>
+        <span style="float: right; "><p>Show: 
+        <a class="underln" ng-click="setLimit(5)"> 5</a> &middot;
+        <a class="underln" ng-click="setLimit(10)"> 10</a> &middot;
+        <a class="underln" ng-click="setLimit(20)"> 20</a> &middot;
+        <a class="underln" ng-click="setLimit(30)"> 30</a> &middot;
+        <a class="underln" ng-click="setLimit(50)"> 50</a>
+        </p></span>
+        </div>
         <table style="border-collapse:collapse;" cellpadding="1" width="100%">
-            <thead style="font-weight: bold; font-stretch: condensed">
+            <thead style="font-weight: bold">
                 <tr>
-                    <th width="70" align="center">Sub ID</th>
+                    <th width="70" align="left">&nbsp;Sub ID</th>
                     <th width="70"></th>
                     <th width="250" align="left">Problem</th>
                     <th width="250" align="left">User</th>
@@ -64,22 +88,51 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: black;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
-                    <td align="center" style="font-stretch: condensed">{{i.id}}</td>
+                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: black; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
+                    <td style="font-stretch: condensed">&nbsp;{{i.id}}</td>
                     <td align="right">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</td>
                     <td style="font-stretch: condensed">{{i.problem.name}}</td>
                     <td>{{i.author.members[0].handle}}</td>
-                    <td align="center">{{verdict_map[i.verdict]}}</td>
+                    <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top; width: 25px">{{i.passedTestCount}}</span></td>
                     <td align="center">{{i.programmingLanguage}}</td>
                     <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
                     <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
-                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "MM-dd HH:mm:ss"}}</td>
                     
                 </tr>
             </tbody>
         </table>
     </div>
     
-    <p style="color:#ffffff; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for the <a class="underln" href="http://codeforces.com/api/help">API</a>.</p>
+    <p style="color:#ffffff; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for their <a class="underln" href="http://codeforces.com/api/help">API</a>.</p>
+    
+    <table style="color: white; table-layout: fixed;">
+    <tr>
+        <td class="short QU"></td><td class="desc">In queue</td>
+        <td class="short testing"></td><td class="desc">Testing</td>
+        <td class="short CE">CE</td><td class="desc">Compile error</td>
+        <td class="short TLE">TLE</td><td class="desc">Time limit exceeded</td>
+        <td class="short IPC">IPC</td><td class="desc">Input preparation crashed</td>
+        <td class="short CH">CH</td><td class="desc">Challenged</td>
+        
+    </tr>
+    <tr>
+        <td class="short AC">AC</td><td class="desc">Accepted</td>
+        <td class="short PA">PA</td><td class="desc">Partial</td>
+        <td class="short PE">PE</td><td class="desc">Presentation error</td>
+        <td class="short MLE">MLE</td><td class="desc">Memory limit exceeded</td>
+        <td class="short CR">CR</td><td class="desc">Crashed</td>
+        <td class="short SK">SK</td><td class="desc">Skipped</td>
+    </tr>
+    <tr>
+        <td class="short WA">WA</td><td class="desc">Wrong answer</td>
+        <td class="short FA">FA</td><td class="desc">Failed</td>
+        <td class="short RTE">RTE</td><td class="desc">Runtime error</td>
+        <td class="short ILE">ILE</td><td class="desc">Idleness limit exceeded</td>
+        <td class="short SV">SV</td><td class="desc">Security violated</td>
+        <td class="short RJ">RJ</td><td class="desc">Rejected</td>
+    </tr>
+  </table>
 </body>
 </html>

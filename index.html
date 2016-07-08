@@ -76,36 +76,39 @@
         <table style="border-collapse:collapse;" cellpadding="1" width="100%">
             <thead style="font-weight: bold">
                 <tr>
-                    <th width="70" align="left">&nbsp;Sub ID</th>
+                    <th width="70" align="left">&nbsp;Sub&nbsp;ID</th>
                     <th width="70"></th>
-                    <th width="250" align="left">Problem</th>
+                    <th width="300" align="left">Problem</th>
                     <th width="250" align="left">User</th>
                     <th width="70">Verdict</th>
                     <th width="120">Lang</th>
-                    <th width="90">Time</th>
-                    <th width="90">Memory</th>
-                    <th width="110">Submit Time</th>
+                    <th width="80">Time</th>
+                    <th width="80">Memory</th>
+                    <th width="110">Sub&nbsp;Time</th>
                 </tr>
             </thead>
             <tbody>
                 <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: black; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
                     <td style="font-stretch: condensed">&nbsp;{{i.id}}</td>
-                    <td align="right">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</td>
+                    <td align="right">
+                        <a ng-if="i.problem.contestId < 100000" style="color: white; text-decoration: none" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                        <a ng-if="i.problem.contestId >= 100000" style="color: white; text-decoration: none" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                    </td>
                     <td style="font-stretch: condensed">{{i.problem.name}}</td>
                     <td>{{i.author.members[0].handle}}</td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
                     <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top; width: 25px">{{i.passedTestCount}}</span></td>
-                    <td align="center">{{i.programmingLanguage}}</td>
+                    <td style="font-stretch:condensed" align="center">{{i.programmingLanguage}}</td>
                     <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
                     <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
-                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "MM-dd HH:mm:ss"}}</td>
+                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "HH:mm:ss"}}</td>
                     
                 </tr>
             </tbody>
         </table>
     </div>
     
-    <p style="color:#ffffff; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for their <a class="underln" href="http://codeforces.com/api/help">API</a>.</p>
+    <p style="color:#ffffff; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for their <a class="underln" href="http://codeforces.com/api/help">API</a>. The boxed numbers denote the number of passed test cases.</p>
     
     <table style="color: white; table-layout: fixed;">
     <tr>

@@ -15,7 +15,7 @@
     $scope.submissions = [];
     var temp = [];
     var first_run = true;
-    var how_many = 20;
+    var how_many = 15;
 
     $scope.verdict_map = {
     undefined: 'QU',
@@ -54,7 +54,7 @@
             }
         });
     };
-
+    
     $interval($scope.loadSubs, 1000);
 
     }
@@ -63,23 +63,25 @@
 </head>
 <body bgcolor="#000000">
     <div ng-controller="SubsCtrl">
-        <div style="font-size: 13px">
-        <span style="float: left; font-weight: bold"><p>Live Submissions from Codeforces</p></span>
-        <span style="float: right; "><p>Show: 
-        <a class="underln" ng-click="setLimit(5)"> 5</a> &middot;
-        <a class="underln" ng-click="setLimit(10)"> 10</a> &middot;
-        <a class="underln" ng-click="setLimit(20)"> 20</a> &middot;
-        <a class="underln" ng-click="setLimit(30)"> 30</a> &middot;
-        <a class="underln" ng-click="setLimit(50)"> 50</a>
-        </p></span>
-        </div>
+        
         <table style="border-collapse:collapse;" cellpadding="1" width="100%">
-            <thead style="font-weight: bold">
+            <thead>
                 <tr>
+                <span style="float: left; font-weight: bold; font-size: 12px"><p>Live Submissions from Codeforces</p></span>
+                <span style="float: right; font-size: 12px"><p>Show: 
+                <a class="underln" ng-click="setLimit(5)"> 5</a> &middot;
+                <a class="underln" ng-click="setLimit(10)"> 10</a> &middot;
+                <a class="underln" ng-click="setLimit(15)"> 15</a> &middot;
+                <a class="underln" ng-click="setLimit(20)"> 20</a> &middot;
+                <a class="underln" ng-click="setLimit(30)"> 30</a> &middot;
+                <a class="underln" ng-click="setLimit(50)"> 50</a>
+                </p></span>
+                </tr>
+                <tr style="font-weight: bold">
                     <th width="70" align="left">&nbsp;Sub&nbsp;ID</th>
                     <th width="70"></th>
                     <th width="300" align="left">Problem</th>
-                    <th width="250" align="left">User</th>
+                    <th width="350" align="left">User</th>
                     <th width="70">Verdict</th>
                     <th width="120">Lang</th>
                     <th width="80">Time</th>
@@ -89,15 +91,23 @@
             </thead>
             <tbody>
                 <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: black; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
-                    <td style="font-stretch: condensed">&nbsp;{{i.id}}</td>
+                    <td style="font-stretch: condensed">
+                        <a ng-if="i.problem.contestId < 100000" style="color: white; text-decoration: none" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>
+                        <a ng-if="i.problem.contestId >= 100000" style="color: white; text-decoration: none">&nbsp;{{i.id}}</a>
+                    </td>
                     <td align="right">
                         <a ng-if="i.problem.contestId < 100000" style="color: white; text-decoration: none" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
                         <a ng-if="i.problem.contestId >= 100000" style="color: white; text-decoration: none" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
                     </td>
                     <td style="font-stretch: condensed">{{i.problem.name}}</td>
-                    <td>{{i.author.members[0].handle}}</td>
+                    <td ng-if="i.author.participantType != 'CONTESTANT' || i.author.teamName == undefined">{{i.author.members[0].handle}}</td>
+                    <td ng-if="i.author.participantType == 'CONTESTANT' && i.author.teamName != undefined">
+                    <span style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top;">{{i.author.teamName}}</span>&nbsp;
+                    <span style="font-stretch: condensed">{{i.author.members[0].handle}}</span><span ng-if="i.author.members.length >= 2" style="font-stretch: condensed">, {{i.author.members[1].handle}}</span><span ng-if="i.author.members.length >= 3" style="font-stretch: condensed">, {{i.author.members[2].handle}}</span>
+                    
+                    </td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
-                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top; width: 25px">{{i.passedTestCount}}</span></td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
                     <td style="font-stretch:condensed" align="center">{{i.programmingLanguage}}</td>
                     <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
                     <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
@@ -116,7 +126,7 @@
         <td class="short testing"></td><td class="desc">Testing</td>
         <td class="short CE">CE</td><td class="desc">Compile error</td>
         <td class="short TLE">TLE</td><td class="desc">Time limit exceeded</td>
-        <td class="short IPC">IPC</td><td class="desc">Input preparation crashed</td>
+        <td class="short IPC">IPC</td><td class="desc">Input prep crashed</td>
         <td class="short CH">CH</td><td class="desc">Challenged</td>
         
     </tr>

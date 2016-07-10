@@ -91,7 +91,7 @@ td.desc {
 }
 
 .QU  {animation: flashing 0.3s ease-in-out 0s infinite alternate;}
-.FA  {background: #AA0033; }/*animation: flashing_fa 0.3s ease-in-out 0s 1}    */
+.FA  {background: #AA0000; }/*animation: flashing_fa 0.3s ease-in-out 0s 1}    */
 .AC  {background: #00AA00; }/*animation: flashing_ac 0.3s ease-in-out 0s 1}    */
 .PA  {background: #006600; }/*animation: flashing_pa 0.3s ease-in-out 0s 1}    */
 .CE  {background: #AAAA00; }/*animation: flashing_ce 0.3s ease-in-out 0s 1}    */
@@ -155,7 +155,7 @@ td.testing  {
 
 @keyframes flashing_rj {
     from {background-color: black;}
-    to {background-color: #660000;}
+    to {background-color: #333333;}
 }
 
 @keyframes flashing_pa {
@@ -165,5 +165,5 @@ td.testing  {
 
 @keyframes flashing_fa {
     from {background-color: black;}
-    to {background-color: #333333;}
+    to {background-color: #AA0000;}
 }

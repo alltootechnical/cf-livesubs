@@ -100,14 +100,14 @@
                         <a ng-if="i.problem.contestId >= 100000" style="color: white; text-decoration: none" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
                     </td>
                     <td style="font-stretch: condensed">{{i.problem.name}}</td>
-                    <td ng-if="i.author.participantType != 'CONTESTANT' || i.author.teamName == undefined">{{i.author.members[0].handle}}</td>
-                    <td ng-if="i.author.participantType == 'CONTESTANT' && i.author.teamName != undefined">
-                    <span style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top;">{{i.author.teamName}}</span>&nbsp;
+                    <td ng-if="i.author.teamName == undefined">{{i.author.members[0].handle}}</td>
+                    <td ng-if="i.author.teamName != undefined">
+                    <span style="border: 1px solid white; font-size:15px; display: inline-block; padding: 2px; vertical-align:top;">{{i.author.teamName}}</span>
                     <span style="font-stretch: condensed">{{i.author.members[0].handle}}</span><span ng-if="i.author.members.length >= 2" style="font-stretch: condensed">, {{i.author.members[1].handle}}</span><span ng-if="i.author.members.length >= 3" style="font-stretch: condensed">, {{i.author.members[2].handle}}</span>
                     
                     </td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
-                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 1px 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid white; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
                     <td style="font-stretch:condensed" align="center">{{i.programmingLanguage}}</td>
                     <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
                     <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
@@ -128,7 +128,6 @@
         <td class="short TLE">TLE</td><td class="desc">Time limit exceeded</td>
         <td class="short IPC">IPC</td><td class="desc">Input prep crashed</td>
         <td class="short CH">CH</td><td class="desc">Challenged</td>
-        
     </tr>
     <tr>
         <td class="short AC">AC</td><td class="desc">Accepted</td>

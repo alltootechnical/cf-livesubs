@@ -60,9 +60,10 @@ table {
 }
 
 @-webkit-keyframes loading {
-    0%{background-position:60% 0%}
-	/* 50%{background-position:50% 0%} */
-	100%{background-position:40% 0%}
+    0%{background-position:65% 0%}
+	40%{background-position:37% 0%}
+	60%{background-position:23% 0%}
+	100%{background-position:-25% 0%}
 }
 
 h3, h4, h5, h6, p {

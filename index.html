@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Live Submissions from Codeforces</title>
     <link rel="stylesheet" href="cflive2.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Fira+Sans+Extra+Condensed|Fira+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <link href="http://i.imgur.com/UaJV0iL.png" rel="shortcut icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
@@ -69,7 +70,9 @@
         });
     }
 
-    $interval($scope.loadSubs, 1000);
+    $scope.now = new Date().getTime()/1000|0;
+
+    $interval($scope.loadSubs, 2000);
 
     }
     </script>
@@ -109,27 +112,31 @@
             <tbody>
                 <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
                 <!-- <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]" ng-if="users.indexOf(i.author.members[0].handle) != -1"> -->
-                    <td style="font-stretch: condensed">
-                        <a ng-if="i.problem.contestId < 100000" style="text-decoration: none" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>
-                        <a ng-if="i.problem.contestId >= 100000">&nbsp;{{i.id}}</a>
+                    <td class="cond">
+                        <a class="cond nounderln" ng-if="i.problem.contestId < 100000" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>
+                        <a class="cond" ng-if="i.problem.contestId >= 100000">&nbsp;{{i.id}}</a>
                     </td>
                     <td align="right">
-                        <a ng-if="i.problem.contestId < 100000" style="text-decoration: none" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
-                        <a ng-if="i.problem.contestId >= 100000" style="text-decoration: none" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                        <a ng-if="i.problem.contestId < 100000" class="nounderln" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                        <a ng-if="i.problem.contestId >= 100000" class="nounderln" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
                     </td>
-                    <td style="font-stretch: condensed">{{i.problem.name}}</td>
-                    <td ng-if="i.author.teamName == undefined">{{i.author.members[0].handle}}</td>
+                    <td class="cond">{{i.problem.name}}</td>
+                    <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}">{{i.author.members[0].handle}}</a>
+                    <!-- <span class="sup">{{i.author.participantType}} </span> -->
+                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
+                    </td>
                     <td ng-if="i.author.teamName != undefined">
                     <span style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top;">{{i.author.teamName}}</span>
-                    <span style="font-stretch: condensed">{{i.author.members[0].handle}}</span><span ng-if="i.author.members.length >= 2" style="font-stretch: condensed">, {{i.author.members[1].handle}}</span><span ng-if="i.author.members.length >= 3" style="font-stretch: condensed">, {{i.author.members[2].handle}}</span>
-
+                    <span class="cond">{{i.author.members[0].handle}}</span><span ng-if="i.author.members.length >= 2" class="cond">, {{i.author.members[1].handle}}</span><span ng-if="i.author.members.length >= 3" class="cond">, {{i.author.members[2].handle}}</span>
+                    <!-- <span class="sup">{{i.author.participantType}} </span> -->
+                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
                     <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
-                    <td style="font-stretch:condensed" align="center">{{i.programmingLanguage}}</td>
-                    <td style="font-stretch:condensed" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
-                    <td style="font-stretch:condensed" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
-                    <td style="font-stretch:condensed" align="center">{{i.creationTimeSeconds*1000 | date: "HH:mm:ss"}}</td>
+                    <td class="cond" align="center">{{i.programmingLanguage}}</td>
+                    <td class="cond" align="center">{{i.timeConsumedMillis/1000 | number:3}} ms</td>
+                    <td class="cond" align="center">{{i.memoryConsumedBytes/1000 | number:0}} kB</td>
+                    <td class="cond" align="center">{{i.creationTimeSeconds*1000 | date: "HH:mm:ss"}}</td>
 
                 </tr>
             </tbody>
@@ -141,28 +148,28 @@
 
         <table style="color: #fdf6e3; table-layout: fixed;" id="legend">
         <tr>
-            <td class="short QU"></td><td class="desc">In queue</td>
-            <td class="short testing"></td><td class="desc">Testing</td>
-            <td class="short CE">CE</td><td class="desc">Compile error</td>
-            <td class="short TLE">TLE</td><td class="desc">Time limit exceeded</td>
-            <td class="short IPC">IPC</td><td class="desc">Input prep crashed</td>
-            <td class="short CH">CH</td><td class="desc">Challenged</td>
+            <td class="short QU"></td><td class="desc cond">In queue</td>
+            <td class="short testing"></td><td class="desc cond">Testing</td>
+            <td class="short CE">CE</td><td class="desc cond">Compile error</td>
+            <td class="short TLE">TLE</td><td class="desc cond">Time limit exceeded</td>
+            <td class="short IPC">IPC</td><td class="desc cond">Input prep crashed</td>
+            <td class="short CH">CH</td><td class="desc cond">Challenged</td>
         </tr>
         <tr>
-            <td class="short AC">AC</td><td class="desc">Accepted</td>
-            <td class="short PA">PA</td><td class="desc">Partial</td>
-            <td class="short PE">PE</td><td class="desc">Presentation error</td>
-            <td class="short MLE">MLE</td><td class="desc">Memory limit exceeded</td>
-            <td class="short CR">CR</td><td class="desc">Crashed</td>
-            <td class="short SK">SK</td><td class="desc">Skipped</td>
+            <td class="short AC">AC</td><td class="desc cond">Accepted</td>
+            <td class="short PA">PA</td><td class="desc cond">Partial</td>
+            <td class="short PE">PE</td><td class="desc cond">Presentation error</td>
+            <td class="short MLE">MLE</td><td class="desc cond">Memory limit exceeded</td>
+            <td class="short CR">CR</td><td class="desc cond">Crashed</td>
+            <td class="short SK">SK</td><td class="desc cond">Skipped</td>
         </tr>
         <tr>
-            <td class="short WA">WA</td><td class="desc">Wrong answer</td>
-            <td class="short FA">FA</td><td class="desc">Failed</td>
-            <td class="short RTE">RTE</td><td class="desc">Runtime error</td>
-            <td class="short ILE">ILE</td><td class="desc">Idleness limit exceeded</td>
-            <td class="short SV">SV</td><td class="desc">Security violated</td>
-            <td class="short RJ">RJ</td><td class="desc">Rejected</td>
+            <td class="short WA">WA</td><td class="desc cond">Wrong answer</td>
+            <td class="short FA">FA</td><td class="desc cond">Failed</td>
+            <td class="short RTE">RTE</td><td class="desc cond">Runtime error</td>
+            <td class="short ILE">ILE</td><td class="desc cond">Idleness limit exceeded</td>
+            <td class="short SV">SV</td><td class="desc cond">Security violated</td>
+            <td class="short RJ">RJ</td><td class="desc cond">Rejected</td>
         </tr>
       </table>
     </div>

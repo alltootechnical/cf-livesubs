@@ -1,0 +1,172 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Regular.ttf);
+    font-style: normal;
+    font-weight: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Bold.ttf);
+    font-style: normal;
+	font-weight: bold;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-Italic.ttf);
+	font-style: italic;
+    font-weight: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondLight.ttf);
+    font-style: normal;
+	font-weight: normal;
+    font-stretch: condensed;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondLightItalic.ttf);
+    font-style: italic;
+	font-weight: normal;
+    font-stretch: condensed;
+}
+
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(fonts/OpenSans-CondBold.ttf);
+    font-style: normal;
+	font-weight: bold;
+    font-stretch: condensed;
+}
+
+table {
+    font-family: "Open Sans";
+    color: #fdf6e3;
+    font-size: 21px;
+}
+
+@keyframes flashing {
+    from {background-color: #002b36;}
+    to {background-color: #586e75;}
+}
+
+@-webkit-keyframes loading {
+    0%{background-position:65% 0%}
+	40%{background-position:37% 0%}
+	60%{background-position:23% 0%}
+	100%{background-position:-25% 0%}
+}
+
+h3, h4, h5, h6, p, a {
+    font-family: "Open Sans";
+    color: #fdf6e3;
+}
+
+.underln {
+    color: #fdf6e3;
+    border-bottom: 1px solid #fdf6e3;
+    text-decoration: none; font-weight: normal;
+    font-family: "Open Sans";
+}
+
+td.short {
+    width: 50px;
+    text-align: center;
+    /* font-size: 20px */
+}
+
+td.desc {
+    width: 200px;
+    font-stretch: condensed;
+    /* font-size: 15px; */
+    line-height: 100%;
+}
+
+.QU  {animation: flashing 0.3s ease-in-out 0s infinite alternate;}
+.FA  {background: #073642; }/*animation: flashing_fa 0.3s ease-in-out 0s 1}    */
+.AC  {background: #659900; }/*animation: flashing_ac 0.3s ease-in-out 0s 1}    */
+.PA  {background: #073642; }/*animation: flashing_pa 0.3s ease-in-out 0s 1}    */
+.CE  {background: #b58900; }/*animation: flashing_ce 0.3s ease-in-out 0s 1}    */
+.RTE {background: #2aa198; }/*animation: flashing_rte 0.3s ease-in-out 0s 1}   */
+.WA  {background: #dc322f; }/*animation: flashing_wa 0.3s ease-in-out 0s 1}    */
+.PE  {background: #cb4b16; }/*animation: flashing_pe 0.3s ease-in-out 0s 1}    */
+.TLE {background: #268bd2; }/*animation: flashing_tle 0.3s ease-in-out 0s 1}   */
+.MLE {background: #6c71c4; }/*animation: flashing_mle 0.3s ease-in-out 0s 1}   */
+.ILE {background: #d33682; }/*animation: flashing_ile 0.3s ease-in-out 0s 1}   */
+.SV  {background: #073642; }
+.CR  {background: #073642; }
+.IPC {background: #073642; }
+.CH  {background: #657b83; }
+.SK  {background: #073642; }
+.TE  {animation: flashing 0.7s ease-in-out 0s infinite alternate;}
+.RJ  {background: #073642; }/*animation: flashing_rj 0.3s ease-in-out 0s 1}*/
+
+td.testing  {
+    background: -webkit-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
+    background: -moz-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
+    background-size: 600% 600%;
+    animation: loading 5s cubic-bezier(0,-0.36,0,.98) infinite;
+}
+
+@keyframes flashing_ac {
+    from {background-color: #002b36;}
+    to {background-color: #659900;}
+}
+
+@keyframes flashing_wa {
+    from {background-color: #002b36;}
+    to {background-color: #dc322f;}
+}
+
+@keyframes flashing_ce {
+    from {background-color: #002b36;}
+    to {background-color: #b58900;}
+}
+
+@keyframes flashing_rte {
+    from {background-color: #002b36;}
+    to {background-color: #2aa198;}
+}
+
+@keyframes flashing_pe {
+    from {background-color: #002b36;}
+    to {background-color: #cb4b16;}
+}
+
+@keyframes flashing_tle {
+    from {background-color: #002b36;}
+    to {background-color: #268bd2;}
+}
+
+@keyframes flashing_mle {
+    from {background-color: #002b36;}
+    to {background-color: #6c71c4;}
+}
+
+@keyframes flashing_ile {
+    from {background-color: #002b36;}
+    to {background-color: #d33682;}
+}
+
+@keyframes flashing_rj {
+    from {background-color: #002b36;}
+    to {background-color: #073642;}
+}
+
+@keyframes flashing_pa {
+    from {background-color: #002b36;}
+    to {background-color: #073642;}
+}
+
+@keyframes flashing_fa {
+    from {background-color: #002b36;}
+    to {background-color: #073642;}
+}

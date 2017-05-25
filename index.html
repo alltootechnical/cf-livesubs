@@ -21,8 +21,8 @@
       'use strict';
 
       return function (size) {
-        var exp = Math.log(size) / Math.log(1000) | 0;
-        return (size / Math.pow(1000, exp)).toFixed(2) + ' ' +
+        var exp = Math.log(size) / Math.log(1024) | 0;
+        return (size / Math.pow(1024, exp)).toFixed(2) + ' ' +
           ((exp > 0) ? 'kMGTPEZY'[exp - 1] + 'B' : 'B');
       };
     });
@@ -32,7 +32,7 @@
         $scope.submissions = [];
         var temp = [];
         var first_run = true;
-        var how_many = 20;
+        var how_many = 300;
 
         $scope.ratings = {};
 
@@ -57,20 +57,51 @@
         'REJECTED': 'RJ'
         };
 
+        $scope.tableLimit = 20;
         $scope.setLimit = function(num) {
-            how_many = num;
+            $scope.tableLimit = num;
+        }
+
+        $scope.getIndexFromId = function (arr, id) {
+            for (var i = 0; i < arr.length; i++) {
+                if (id == arr[i].id) {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         $scope.loadSubs = function() {
-            $http.get('https://cors-anywhere.herokuapp.com/http://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
-                if (first_run) {temp = data; first_run = false;}
+            var c = ['https://cors-anywhere.herokuapp.com/'];
+            var cors = c[Math.floor(Math.random()*c.length)];
+            $http.get(cors + 'http://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
+                var lastsub = -1;
+                if (first_run) {temp = data; first_run = false; $scope.submissions = data; lastsub = $scope.submissions.result[0].id;}
                 else {
-                    if (angular.toJson($scope.submissions) !== angular.toJson(temp)) {
-                        $scope.submissions = data;
-                        console.log('updating');
+                    lastsub = $scope.submissions.result[0].id;
+                    console.log(lastsub);
+                    if (data.result[0].id > lastsub) {
+                        var ap = []
+                        for (var i = 0; data.result[i].id > lastsub; i++) {
+                            if ($scope.getIndexFromId($scope.submissions.result, $scope.submissions.result[i].id) != -1) {
+                                console.log('pushed sub id ' + data.result[i].id);
+                                ap.unshift(data.result[i]);
+                            }
+                        }
+                        for (var i = 0; i < ap.length; i++) $scope.submissions.result.unshift(ap[i]);
+                        lastsub = $scope.submissions.result[0].id;
                     }
-                    temp = data;
+                    for (var i = 0; i < data.result.length; i++) {
+                        for (var j = 0; j < $scope.submissions.result.length; j++) {
+                            if (data.result[i].id == $scope.submissions.result[j].id && data.result[i].verdict !== $scope.submissions.result[j].verdict) {
+                                console.log($scope.submissions.result[j].id + " " + $scope.submissions.result[j].verdict + " --> " + data.result[i].id + " " + data.result[i].verdict)
+                                $scope.submissions.result.splice($scope.getIndexFromId($scope.submissions.result, $scope.submissions.result[j].id), 1, data.result[i])
+                            }
+                        }
+                    }
+                    console.log('updating');
                 }
+
             });
         };
 
@@ -82,7 +113,7 @@
 
         $scope.now = new Date().getTime()/1000|0;
 
-        $interval($scope.loadSubs, 2000);
+        $interval($scope.loadSubs, 1000);
 
     }
     </script>
@@ -120,7 +151,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]">
+                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result'] | limitTo: tableLimit" ng-class="verdict_map[i.verdict]">
                 <!-- <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]" ng-if="users.indexOf(i.author.members[0].handle) != -1"> -->
                     <td class="cond">
                         <a class="cond nounderln" ng-if="i.problem.contestId < 100000" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>
@@ -131,7 +162,7 @@
                         <a ng-if="i.problem.contestId >= 100000" class="nounderln" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
                     </td>
                     <td class="cond">{{i.problem.name}}</td>
-                    <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}">{{i.author.members[0].handle}}</a>
+                    <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}" target="_blank">{{i.author.members[0].handle}}</a>
                     <!-- <span class="sup">{{i.author.participantType}} </span> -->
                     <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
@@ -156,7 +187,7 @@
     <div id="info">
         <p style="color:#fdf6e3; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for their <a class="underln" href="http://codeforces.com/api/help">API</a>. The boxed numbers denote the number of passed test cases. </p>
 
-        <table style="color: #fdf6e3; table-layout: fixed;" id="legend">
+        <table style="color: #fdf6e3; table-layout: fixed; font-size:12pt" id="legend">
         <tr>
             <td class="short QU"></td><td class="desc cond">In queue</td>
             <td class="short testing"></td><td class="desc cond">Testing</td>

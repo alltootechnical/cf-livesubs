@@ -54,6 +54,10 @@ table {
     font-size: 21px;
 }
 
+div#info {
+    font-size:12pt;
+}
+
 .nounderln {
     text-decoration: none;
 }
@@ -63,11 +67,10 @@ table {
     to {background-color: #586e75;}
 }
 
+
 @-webkit-keyframes loading {
-    0%{background-position:65% 0%}
-	40%{background-position:37% 0%}
-	60%{background-position:23% 0%}
-	100%{background-position:-25% 0%}
+    0%{background-position:60% 0%}
+	100%{background-position:40% 0%}
 }
 
 h3, h4, h5, h6, p, a {
@@ -107,16 +110,16 @@ td.desc {
 }
 
 .QU  {animation: flashing 0.3s ease-in-out 0s infinite alternate;}
-.FA  {background: #073642; }/*animation: flashing_fa 0.3s ease-in-out 0s 1}    */
-.AC  {background: #659900; }/*animation: flashing_ac 0.3s ease-in-out 0s 1}    */
-.PA  {background: #073642; }/*animation: flashing_pa 0.3s ease-in-out 0s 1}    */
-.CE  {background: #b58900; }/*animation: flashing_ce 0.3s ease-in-out 0s 1}    */
-.RTE {background: #2aa198; }/*animation: flashing_rte 0.3s ease-in-out 0s 1}   */
-.WA  {background: #dc322f; }/*animation: flashing_wa 0.3s ease-in-out 0s 1}    */
-.PE  {background: #cb4b16; }/*animation: flashing_pe 0.3s ease-in-out 0s 1}    */
-.TLE {background: #268bd2; }/*animation: flashing_tle 0.3s ease-in-out 0s 1}   */
-.MLE {background: #6c71c4; }/*animation: flashing_mle 0.3s ease-in-out 0s 1}   */
-.ILE {background: #d33682; }/*animation: flashing_ile 0.3s ease-in-out 0s 1}   */
+.FA  {background: #073642; animation: flashing_fa 0.3s ease-in-out 0s 1}
+.AC  {background: #659900; animation: flashing_ac 0.3s ease-in-out 0s 1}
+.PA  {background: #073642; animation: flashing_pa 0.3s ease-in-out 0s 1}
+.CE  {background: #b58900; animation: flashing_ce 0.3s ease-in-out 0s 1}
+.RTE {background: #2aa198; animation: flashing_rte 0.3s ease-in-out 0s 1}
+.WA  {background: #dc322f; animation: flashing_wa 0.3s ease-in-out 0s 1}
+.PE  {background: #cb4b16; animation: flashing_pe 0.3s ease-in-out 0s 1}
+.TLE {background: #268bd2; animation: flashing_tle 0.3s ease-in-out 0s 1}
+.MLE {background: #6c71c4; animation: flashing_mle 0.3s ease-in-out 0s 1}
+.ILE {background: #d33682; animation: flashing_ile 0.3s ease-in-out 0s 1}
 .SV  {background: #073642; }
 .CR  {background: #073642; }
 .IPC {background: #073642; }
@@ -129,7 +132,7 @@ td.testing  {
     background: -webkit-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
     background: -moz-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
     background-size: 600% 600%;
-    animation: loading 5s cubic-bezier(0,-0.36,0,.98) infinite;
+    animation: loading 10s cubic-bezier(0,-0.36,0,.98) infinite;
 }
 
 @keyframes flashing_ac {

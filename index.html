@@ -35,6 +35,14 @@
         var how_many = 300;
 
         $scope.ratings = {};
+        $scope.hiddenVerdicts = false;
+        $scope.currSubid = 0;
+
+        $scope.toggleVerdicts = function () {
+            $scope.hiddenVerdicts = !$scope.hiddenVerdicts;
+            $scope.currSubid = $scope.submissions.result[0].id;
+            // alert("Verdicts will now be " + ($scope.hiddenVerdicts ? "hidden" : "shown"));
+        };
 
         $scope.verdict_map = {
         undefined: 'QU',
@@ -54,7 +62,8 @@
         'CHALLENGED': 'CH',
         'SKIPPED': 'SK',
         'TESTING': 'TE',
-        'REJECTED': 'RJ'
+        'REJECTED': 'RJ',
+        'HIDDEN': 'X'
         };
 
         $scope.tableLimit = 20;
@@ -79,12 +88,20 @@
                 if (first_run) {temp = data; first_run = false; $scope.submissions = data; lastsub = $scope.submissions.result[0].id;}
                 else {
                     lastsub = $scope.submissions.result[0].id;
+                    //$scope.currSubid = lastsub;
                     console.log(lastsub);
                     if (data.result[0].id > lastsub) {
                         var ap = []
                         for (var i = 0; data.result[i].id > lastsub; i++) {
                             if ($scope.getIndexFromId($scope.submissions.result, $scope.submissions.result[i].id) != -1) {
-                                console.log('pushed sub id ' + data.result[i].id);
+                                console.log('pushed sub id ' + data.result[i].id + " " + data.result[i].verdict);
+                                if ((data.result[i].verdict !== "TESTING" && data.result[i].verdict != undefined)) {
+                                    if ($scope.hiddenVerdicts) {
+                                        data.result[i].verdict = "HIDDEN";
+                                        data.result[i].timeConsumedMillis = 0;
+                                        data.result[i].memoryConsumedBytes = 0;
+                                    }
+                                }
                                 ap.unshift(data.result[i]);
                             }
                         }
@@ -94,8 +111,17 @@
                     for (var i = 0; i < data.result.length; i++) {
                         for (var j = 0; j < $scope.submissions.result.length; j++) {
                             if (data.result[i].id == $scope.submissions.result[j].id && data.result[i].verdict !== $scope.submissions.result[j].verdict) {
+                                var row = data.result[i];
+                                console.log("cmp: " + data.result[i].id + " >" + $scope.currSubid);
+                                if ((data.result[i].verdict !== "TESTING" && data.result[i].verdict != undefined) || data.result[i].id > $scope.currSubid) {
+                                    if ($scope.hiddenVerdicts) {
+                                        data.result[i].verdict = "HIDDEN";
+                                        data.result[i].timeConsumedMillis = 0;
+                                        data.result[i].memoryConsumedBytes = 0;
+                                    }
+                                }
                                 console.log($scope.submissions.result[j].id + " " + $scope.submissions.result[j].verdict + " --> " + data.result[i].id + " " + data.result[i].verdict)
-                                $scope.submissions.result.splice($scope.getIndexFromId($scope.submissions.result, $scope.submissions.result[j].id), 1, data.result[i])
+                                $scope.submissions.result.splice($scope.getIndexFromId($scope.submissions.result, $scope.submissions.result[j].id), 1, row);
                             }
                         }
                     }
@@ -125,7 +151,10 @@
         <table style="border-collapse:collapse;" cellpadding="1" width="100%">
             <thead>
                 <tr>
-                <span style="float: left; font-weight: bold; font-size: 12px"><p>Live Submissions from Codeforces</p></span>
+                <span style="float: left; font-weight: bold; font-size: 12px"><p>Live Submissions from Codeforces
+                    <span class="boxes" style="color:#fdf6e3; font-weight:normal; border: 1px solid #fdf6e3" ng-if="hiddenVerdicts">Verdicts hidden</span>
+                </p></span>
+
                 <span style="float: right; font-size: 12px"><p>Show:
                 <a href="#" class="underln" ng-click="setLimit(5)"> 5</a> &middot;
                 <a href="#" class="underln" ng-click="setLimit(10)"> 10</a> &middot;
@@ -134,8 +163,9 @@
                 <a href="#" class="underln" ng-click="setLimit(30)"> 30</a> &middot;
                 <a href="#" class="underln" ng-click="setLimit(50)"> 50</a> &middot;
                 <a href="#" class="underln" ng-click="setLimit(100)"> 100</a> &middot;
-                <a href="#" class="underln" ng-click="setLimit(200)"> 200</a> |
-                <a href="#" class="underln" onclick="toggle()"> Toggle info</a>
+                <a href="#" class="underln" ng-click="setLimit(200)"> 200</a> | Toggle:
+                <a href="#" class="underln" onclick="toggle()"> Info</a> &middot;
+                <a href="#" class="underln" ng-click="toggleVerdicts()"> Verdicts</a>
                 </p></span>
                 </tr>
                 <tr style="font-weight: bold">
@@ -165,6 +195,7 @@
                     <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}" target="_blank">{{i.author.members[0].handle}}</a>
                     <!-- <span class="sup">{{i.author.participantType}} </span> -->
                     <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
+                    <span class="sup" ng-if="i.author.participantType=='CONTESTANT'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
                     <td ng-if="i.author.teamName != undefined">
                     <span style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top;">{{i.author.teamName}}</span>
@@ -173,7 +204,8 @@
                     <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
-                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
+                    <td align="center" ng-if="verdict_map[i.verdict] == 'X'">?</td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE' && verdict_map[i.verdict] != 'X'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE' || verdict_map[i.verdict] != 'X'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
                     <td class="cond" align="center">{{i.programmingLanguage}}</td>
                     <td class="cond" align="center">{{i.timeConsumedMillis/1000 | number:3}} s</td>
                     <td class="cond" align="center">{{i.memoryConsumedBytes | formatByte}}</td>

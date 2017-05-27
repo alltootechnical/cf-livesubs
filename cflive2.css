@@ -62,8 +62,17 @@ div#info {
     text-decoration: none;
 }
 
+.boxes {
+    font-weight:normal;
+    display:inline;
+    padding:2px 7px;
+    font-family: "Fira Sans";
+    color: #fdf6e3;
+    font-size: 12px;
+}
+
 @keyframes flashing {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #586e75;}
 }
 
@@ -125,67 +134,68 @@ td.desc {
 .IPC {background: #073642; }
 .CH  {background: #657b83; }
 .SK  {background: #073642; }
+.X  {background: #073642;}
 .TE  {animation: flashing 0.7s ease-in-out 0s infinite alternate;}
 .RJ  {background: #073642; }/*animation: flashing_rj 0.3s ease-in-out 0s 1}*/
 
 td.testing  {
-    background: -webkit-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
-    background: -moz-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #002b36 50%, #002b36 100%);
+    background: -webkit-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #073642 50%, #073642 100%);
+    background: -moz-linear-gradient(left, #eee8d5, #eee8d5 49.7%, #073642 50%, #073642 100%);
     background-size: 600% 600%;
     animation: loading 10s cubic-bezier(0,-0.36,0,.98) infinite;
 }
 
 @keyframes flashing_ac {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #659900;}
 }
 
 @keyframes flashing_wa {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #dc322f;}
 }
 
 @keyframes flashing_ce {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #b58900;}
 }
 
 @keyframes flashing_rte {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #2aa198;}
 }
 
 @keyframes flashing_pe {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #cb4b16;}
 }
 
 @keyframes flashing_tle {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #268bd2;}
 }
 
 @keyframes flashing_mle {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #6c71c4;}
 }
 
 @keyframes flashing_ile {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #d33682;}
 }
 
 @keyframes flashing_rj {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #073642;}
 }
 
 @keyframes flashing_pa {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #073642;}
 }
 
 @keyframes flashing_fa {
-    from {background-color: #002b36;}
+    from {background-color: #073642;}
     to {background-color: #073642;}
 }

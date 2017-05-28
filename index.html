@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title>Live Submissions from Codeforces</title>
     <link rel="stylesheet" href="cflive2.css"/>
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Fira+Sans+Extra+Condensed|Fira+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Fira+Sans+Extra+Condensed|Fira+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <link href="http://i.imgur.com/UaJV0iL.png" rel="shortcut icon">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script>
     function toggle() {
         var x = document.getElementById('info');
@@ -32,7 +32,7 @@
         $scope.submissions = [];
         var temp = [];
         var first_run = true;
-        var how_many = 300;
+        var how_many = 400;
 
         $scope.ratings = {};
         $scope.hiddenVerdicts = false;
@@ -43,6 +43,19 @@
             $scope.currSubid = $scope.submissions.result[0].id;
             // alert("Verdicts will now be " + ($scope.hiddenVerdicts ? "hidden" : "shown"));
         };
+
+        $scope.filtered = false;
+        $scope.users = [];
+        var kw = "";
+        $scope.filterUsers = function () {
+            var kw2 = prompt("Enter the list of usernames separated with a comma. Leave blank to remove filtering.", kw);
+            if (kw2 == null || kw2 == "") $scope.filtered = false;
+            else {
+                kw = kw2;
+                $scope.filtered = true;
+                $scope.users = kw.split(",");
+            }
+        }
 
         $scope.verdict_map = {
         undefined: 'QU',
@@ -83,7 +96,7 @@
         $scope.loadSubs = function() {
             var c = ['https://cors-anywhere.herokuapp.com/'];
             var cors = c[Math.floor(Math.random()*c.length)];
-            $http.get(cors + 'http://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
+            $http.get('http://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
                 var lastsub = -1;
                 if (first_run) {temp = data; first_run = false; $scope.submissions = data; lastsub = $scope.submissions.result[0].id;}
                 else {
@@ -132,7 +145,7 @@
         };
 
         $scope.getRating = function(uname) {
-            $http.get('https://cors-anywhere.herokuapp.com/http://codeforces.com/api/user.info?handles=' + uname).success(function(data, status) {
+            $http.get('http://codeforces.com/api/user.info?handles=' + uname).success(function(data, status) {
                 $scope.ratings[uname] = data[0].rating;
             });
         }
@@ -165,7 +178,8 @@
                 <a href="#" class="underln" ng-click="setLimit(100)"> 100</a> &middot;
                 <a href="#" class="underln" ng-click="setLimit(200)"> 200</a> | Toggle:
                 <a href="#" class="underln" onclick="toggle()"> Info</a> &middot;
-                <a href="#" class="underln" ng-click="toggleVerdicts()"> Verdicts</a>
+                <a href="#" class="underln" ng-click="toggleVerdicts()"> Verdicts</a> |
+                <a href="#" class="underln" ng-click="filterUsers()"> Filter</a>
                 </p></span>
                 </tr>
                 <tr style="font-weight: bold">
@@ -181,7 +195,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result'] | limitTo: tableLimit" ng-class="verdict_map[i.verdict]">
+                <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result'] | limitTo: tableLimit" ng-class="verdict_map[i.verdict]" ng-if="filtered ? users.indexOf(i.author.members[0].handle) != -1 : true">
                 <!-- <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]" ng-if="users.indexOf(i.author.members[0].handle) != -1"> -->
                     <td class="cond">
                         <a class="cond nounderln" ng-if="i.problem.contestId < 100000" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>

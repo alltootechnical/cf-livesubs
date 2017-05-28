@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <title>Live Submissions from Codeforces</title>
     <link rel="stylesheet" href="cflive2.css"/>
-    <link href="http://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Fira+Sans+Extra+Condensed|Fira+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans+Condensed|Fira+Sans+Extra+Condensed|Fira+Sans:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <link href="http://i.imgur.com/UaJV0iL.png" rel="shortcut icon">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script>
     function toggle() {
         var x = document.getElementById('info');
@@ -94,7 +94,7 @@
         }
 
         $scope.loadSubs = function() {
-            var c = ['https://cors-anywhere.herokuapp.com/'];
+            var c = ['https://cors-anywhere.herokuapp.com/', 'https://crossorigin.me/'];
             var cors = c[Math.floor(Math.random()*c.length)];
             $http.get('http://codeforces.com/api/problemset.recentStatus?count=' + how_many).success(function(data, status) {
                 var lastsub = -1;
@@ -219,7 +219,7 @@
                     </td>
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
                     <td align="center" ng-if="verdict_map[i.verdict] == 'X'">?</td>
-                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE' && verdict_map[i.verdict] != 'X'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE' || verdict_map[i.verdict] != 'X'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE' && verdict_map[i.verdict] != 'X'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE' && verdict_map[i.verdict] != 'X'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
                     <td class="cond" align="center">{{i.programmingLanguage}}</td>
                     <td class="cond" align="center">{{i.timeConsumedMillis/1000 | number:3}} s</td>
                     <td class="cond" align="center">{{i.memoryConsumedBytes | formatByte}}</td>

@@ -49,7 +49,7 @@
 
 
 table {
-    font-family: "Fira Sans";
+    font-family: "Open Sans";
     color: #fdf6e3;
     font-size: 21px;
 }
@@ -66,7 +66,7 @@ div#info {
     font-weight:normal;
     display:inline;
     padding:2px 7px;
-    font-family: "Fira Sans";
+    font-family: "Open Sans";
     color: #fdf6e3;
     font-size: 12px;
 }
@@ -83,7 +83,7 @@ div#info {
 }
 
 h3, h4, h5, h6, p, a {
-    font-family: "Fira Sans";
+    font-family: "Open Sans";
     color: #fdf6e3;
 }
 
@@ -91,12 +91,12 @@ h3, h4, h5, h6, p, a {
     color: #fdf6e3;
     border-bottom: 1px solid #fdf6e3;
     text-decoration: none; font-weight: normal;
-    font-family: "Fira Sans";
+    font-family: "Open Sans";
 }
 
 .cond {
-    /*font-stretch: condensed;*/
-    font-family: 'Fira Sans Extra Condensed';
+    font-stretch: condensed;
+    /*font-family: 'Open Sans Extra Condensed';*/
     font-variant-numeric: tabular-nums;
 }
 

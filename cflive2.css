@@ -68,7 +68,7 @@ div#info {
     padding:2px 7px;
     font-family: "Open Sans";
     color: #fdf6e3;
-    font-size: 12px;
+    /*font-size: 12px;*/
 }
 
 @keyframes flashing {
@@ -102,7 +102,8 @@ h3, h4, h5, h6, p, a {
 
 .sup {
     vertical-align: super;
-    font-size: 12px;
+    font-size: 57%;
+    /*font-size: 12px;*/
 }
 
 td.short {

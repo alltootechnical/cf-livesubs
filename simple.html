@@ -38,61 +38,60 @@
                 </tr>
                 <tr style="font-weight: bold">
                     <!-- 40 40 300 350 100 120 90 90 90px -->
-                    <th style="width: 70px" align="left">&nbsp;Sub&nbsp;ID</th>
+                    <!-- <th style="width: 70px" align="left">&nbsp;Sub&nbsp;ID</th> -->
+                    <!-- <th style="width: 300px" align="left">Problem</th> -->
+                    <th style="width: 350px" align="left"></th>
                     <th style="width: 70px"></th>
-                    <th style="width: 300px" align="left">Problem</th>
-                    <th style="width: 350px" align="left">User</th>
-                    <th style="width: 100px">Verdict</th>
-                    <th style="width: 120px">Lang</th>
+                    <th style="width: 100px"></th>
+                    <!-- <th style="width: 120px">Lang</th>
                     <th style="width: 90px">Time</th>
                     <th style="width: 90px">Mem</th>
-                    <th style="width: 90px">SubTime</th>
+                    <th style="width: 90px">SubTime</th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result'] | limitTo: tableLimit" ng-class="verdict_map[i.verdict]" ng-if="filtered ? users.indexOf(i.author.members[0].handle) != -1 : true">
                 <!-- <tr style="border-top: 5px solid; border-bottom: 5px solid; border-color: #002b36; vertical-align:middle;" ng-repeat="i in submissions['result']" ng-class="verdict_map[i.verdict]" ng-if="users.indexOf(i.author.members[0].handle) != -1"> -->
-                    <td class="cond">
+                    <!-- <td class="cond">
                         <a class="cond nounderln" ng-if="i.problem.contestId < 100000" href="http://codeforces.com/contest/{{i.problem.contestId}}/submission/{{i.id}}" target="_blank">&nbsp;{{i.id}}</a>
                         <a class="cond" ng-if="i.problem.contestId >= 100000">&nbsp;{{i.id}}</a>
-                    </td>
-                    <td align="right">
-                        <a ng-if="i.problem.contestId < 100000" class="nounderln" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
-                        <a ng-if="i.problem.contestId >= 100000" class="nounderln" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
-                    </td>
+                    </td> -->
+                    <!-- <td class="cond" style="max-width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{i.problem.name}}</td> -->
 
 
-                    <td class="cond" style="max-width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{i.problem.name}}</td>
-                    <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}" target="_blank">{{i.author.members[0].handle}}</a>
+                    <td ng-if="i.author.teamName == undefined"><a class="nounderln" href="http://codeforces.com/profile/{{i.author.members[0].handle}}" target="_blank">&nbsp;{{i.author.members[0].handle}}</a>
                     <!-- <span class="sup">{{i.author.participantType}} </span> -->
-                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'" title="Participating as a virtual contestant">({{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}})</span>
+                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">({{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}})</span>
                     <span class="sup" ng-if="i.author.participantType=='CONTESTANT'" title="Participating as a contestant">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
-                    <span class="sup" style="text-decoration: line-through" ng-if="i.author.participantType=='OUT_OF_COMPETITION'" title="Participating out of competition">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
+                    <span class="sup" style="text-decoration: line-through" ng-if="i.author.participantType=='OUT_OF_COMPETITION'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
 
                     <td ng-if="i.author.teamName != undefined">
                     <span style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top;">{{i.author.teamName}}</span>
                     <span class="cond">{{i.author.members[0].handle}}</span><span ng-if="i.author.members.length >= 2" class="cond">, {{i.author.members[1].handle}}</span><span ng-if="i.author.members.length >= 3" class="cond">, {{i.author.members[2].handle}}</span>
                     <!-- <span class="sup">{{i.author.participantType}} </span> -->
-                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'" title="Participating as virtual contestants">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
-                    <span class="sup" ng-if="i.author.participantType=='CONTESTANT'" title="Participating as contestants">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
+                    <span class="sup" ng-if="i.author.participantType=='VIRTUAL'">{{(i.relativeTimeSeconds+57600)*1000 | date: "HH:mm"}}</span>
                     </td>
 
+                    <td align="center">
+                        <a ng-if="i.problem.contestId < 100000" class="nounderln" href="http://codeforces.com/problemset/problem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                        <a ng-if="i.problem.contestId >= 100000" class="nounderln" href="http://codeforces.com/problemset/gymProblem/{{i.problem.contestId}}/{{i.problem.index}}" target="_blank">{{i.problem.contestId}}{{i.problem.index}}&nbsp;</a>
+                    </td>
 
                     <td class="ng-class: {testing: verdict_map[i.verdict] == 'TE'}" align="center" ng-if="verdict_map[i.verdict] == 'QU' || verdict_map[i.verdict] == 'TE'"></td>
                     <td align="center" ng-if="verdict_map[i.verdict] == 'X'">?</td>
-                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE' && verdict_map[i.verdict] != 'X'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE' && verdict_map[i.verdict] != 'X'" style="border: 1px solid #fdf6e3; font-size:15px; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
-                    <td class="cond" align="center">{{i.programmingLanguage}}</td>
-                    <td class="cond" align="center">{{i.timeConsumedMillis/1000 | number:3}}&nbsp;s</td>
-                    <td class="cond" align="center">{{i.memoryConsumedBytes | formatByte}}</td>
-                    <td class="cond" align="center">{{i.creationTimeSeconds*1000 | date: "HH:mm:ss"}}</td>
+                    <td align="center" ng-if="verdict_map[i.verdict] != 'QU' && verdict_map[i.verdict] != 'TE' && verdict_map[i.verdict] != 'X'">{{verdict_map[i.verdict]}}&nbsp;<span ng-if="verdict_map[i.verdict] != 'CE' && verdict_map[i.verdict] != 'X'" style="border: 1px solid #fdf6e3; font-size: 70%; display: inline-block; padding: 2px; vertical-align:top; width: 27px">{{i.passedTestCount}}</span></td>
+                    <!-- <td class="cond" align="center">{{i.programmingLanguage}}</td> -->
+                    <!-- <td class="cond" align="center">{{i.timeConsumedMillis/1000 | number:3}}&nbsp;s</td> -->
+                    <!-- <td class="cond" align="center">{{i.memoryConsumedBytes | formatByte}}</td> -->
+                    <!-- <td class="cond" align="center">{{i.creationTimeSeconds*1000 | date: "HH:mm:ss"}}</td> -->
 
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div id="info">
+    <div id="info" style="display: none;">
         <p style="color:#fdf6e3; font-size:12pt">Created by <a class="underln" href="http://codeforces.com/profile/alltootechnical">Brian Guadalupe</a> in his free time. Thanks to Codeforces for their <a class="underln" href="http://codeforces.com/api/help">API</a>. The boxed numbers denote the number of passed test cases. </p>
 
         <table style="color: #fdf6e3; table-layout: fixed; font-size:12pt" id="legend">
